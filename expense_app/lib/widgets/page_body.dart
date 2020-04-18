@@ -8,6 +8,7 @@ import '../models/transaction.dart';
 import '../helpers/database.dart';
 import './transaction_list.dart';
 import './chart.dart';
+import './new_transaction.dart';
 
 class PageBody extends StatefulWidget {
   final appBarHeight;
@@ -26,10 +27,13 @@ class _PageBodyState extends State<PageBody> {
     return await TransactionDatabaseProvider.db.getAllTransactions();
   }
 
-  void _deleteTransaction(int txId) {
+  void _deleteTransaction(Transaction tx) {
     setState(() {
-      TransactionDatabaseProvider.db.deleteTransactionWithId(txId);
+      TransactionDatabaseProvider.db.deleteTransactionWithId(tx.id);
     });
+
+    Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text("${tx.title} dismissed")));
   }
 
   List<Transaction> _getRecentTransactions(List<Transaction> transactions) {
@@ -40,6 +44,23 @@ class _PageBodyState extends State<PageBody> {
         )),
       );
     }).toList();
+  }
+
+  void _updateTransaction(Transaction updatedTx) {
+    setState(() {
+      TransactionDatabaseProvider.db.updateTransaction(updatedTx);
+    });
+  }
+
+  void _startUpdateTransaction(BuildContext ctx, Transaction tx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: NewTransaction(_updateTransaction, tx),
+          );
+        });
   }
 
   @override
@@ -62,7 +83,8 @@ class _PageBodyState extends State<PageBody> {
 
             final txListWidget = Container(
               height: bodyHeight * 0.7,
-              child: TransactionList(userTransactions, _deleteTransaction),
+              child: TransactionList(
+                  userTransactions, _deleteTransaction, _startUpdateTransaction),
             );
 
             return SafeArea(

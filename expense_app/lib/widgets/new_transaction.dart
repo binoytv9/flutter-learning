@@ -1,3 +1,4 @@
+import 'package:expense_app/models/transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -5,35 +6,45 @@ import 'package:intl/intl.dart';
 import './adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
-  final Function addTx;
+  final Function txHandler;
+  final Transaction oldTx;
 
-  NewTransaction(this.addTx);
+  NewTransaction(this.txHandler, [this.oldTx]);
 
   @override
-  _NewTransactionState createState() => _NewTransactionState();
+  _NewTransactionState createState() => _NewTransactionState(oldTx);
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final _titleController = TextEditingController();
-  final _amountController = TextEditingController();
-  DateTime _selectedDate;
+  TextEditingController _titleController;
+  TextEditingController _amountController;
+
+  Transaction oldTx;
+
+  _NewTransactionState(this.oldTx) {
+    if (oldTx == null) {
+      oldTx = Transaction.empty();
+    }
+
+    _titleController = TextEditingController(
+      text: oldTx.title,
+    );
+    _amountController = TextEditingController(
+      text: oldTx.amount.toString(),
+    );
+  }
 
   void _submitData() {
-    final enteredTitle = _titleController.text;
-    final enteredAmount = double.tryParse(_amountController.text);
+    oldTx.title = _titleController.text;
+    oldTx.amount = double.tryParse(_amountController.text);
 
-    if (enteredTitle.isEmpty ||
-        enteredAmount == null ||
-        enteredAmount <= 0 ||
-        _selectedDate == null) {
+    if (oldTx.title.isEmpty ||
+        oldTx.amount == null ||
+        oldTx.amount <= 0) {
       return;
     }
 
-    widget.addTx(
-      enteredTitle,
-      enteredAmount,
-      _selectedDate,
-    );
+    widget.txHandler(oldTx);
 
     Navigator.of(context).pop();
   }
@@ -49,7 +60,7 @@ class _NewTransactionState extends State<NewTransaction> {
         return;
       }
       setState(() {
-        _selectedDate = pickedDate;
+        oldTx.date = pickedDate;
       });
     });
   }
@@ -70,9 +81,11 @@ class _NewTransactionState extends State<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextField(
+                autofocus: true,
                 decoration: InputDecoration(labelText: 'Title'),
                 controller: _titleController,
-                onSubmitted: (_) => _submitData(),
+                textInputAction: TextInputAction.next,
+                onSubmitted: (_) => FocusScope.of(context).nextFocus(),
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
@@ -80,7 +93,8 @@ class _NewTransactionState extends State<NewTransaction> {
                 keyboardType: TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                onSubmitted: (_) => _submitData(),
+                textInputAction: TextInputAction.done,
+                onSubmitted: (_) => FocusScope.of(context).unfocus(),
               ),
               Container(
                 height: 70,
@@ -88,9 +102,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        _selectedDate == null
-                            ? 'No Date chosen'
-                            : 'Picked Date: ${DateFormat.yMMMd().format(_selectedDate)}',
+                        'Picked Date: ${DateFormat.yMMMd().format(oldTx.date)}',
                       ),
                     ),
                     AdaptiveFlatButton(
@@ -101,7 +113,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 ),
               ),
               RaisedButton(
-                child: Text('Add Transaction'),
+                child: Text('Save Transaction'),
                 color: Theme.of(context).primaryColor,
                 textColor: Theme.of(context).textTheme.button.color,
                 onPressed: _submitData,

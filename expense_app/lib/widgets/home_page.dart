@@ -14,13 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _addNewTransaction(String txTitle, double txAmount, DateTime txDate) {
-    final newTx = Transaction(
-      title: txTitle,
-      amount: txAmount,
-      date: txDate,
-    );
-
+  void _addNewTransaction(Transaction newTx) {
     setState(() {
       TransactionDatabaseProvider.db.addTransactionToDatabase(newTx);
     });
@@ -36,6 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
+
 
   @override
   Widget build(BuildContext context) {

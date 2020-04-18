@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sqflite/sqflite.dart';
 
 const DB_ID = 'id';
 const DB_TITLE = 'title';
@@ -14,15 +15,20 @@ const DB_INVALID_ID = -1;
 
 class Transaction {
   int id = DB_INVALID_ID;
-  final String title;
-  final double amount;
-  final DateTime date;
+  String title;
+  double amount;
+  DateTime date;
 
   Transaction({
     @required this.title,
     @required this.amount,
     @required this.date,
   });
+
+  Transaction.empty()
+      : title = '',
+        amount = 0,
+        date = DateTime.now();
 
   Transaction._all({
     @required this.id,
