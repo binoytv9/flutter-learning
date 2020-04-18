@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,6 +20,11 @@ class PageBody extends StatefulWidget {
 
 class _PageBodyState extends State<PageBody> {
   bool _showChart = false;
+  Future<List<Transaction>> allTransactionsFuture;
+
+  Future<List<Transaction>> _getAllTransaction() async {
+    return await TransactionDatabaseProvider.db.getAllTransactions();
+  }
 
   void _deleteTransaction(int txId) {
     setState(() {
@@ -43,17 +51,20 @@ class _PageBodyState extends State<PageBody> {
         widget.appBarHeight -
         mediaQueryCtx.padding.top;
 
+    allTransactionsFuture = _getAllTransaction();
+
     return FutureBuilder<List<Transaction>>(
-        future: TransactionDatabaseProvider.db.getAllTransactions(),
+        future: allTransactionsFuture,
         builder:
             (BuildContext context, AsyncSnapshot<List<Transaction>> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            final userTransactions = snapshot.data;
+            final userTransactions = snapshot.data.reversed.toList();
 
             final txListWidget = Container(
               height: bodyHeight * 0.7,
               child: TransactionList(userTransactions, _deleteTransaction),
             );
+
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -98,7 +109,11 @@ class _PageBodyState extends State<PageBody> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: Platform.isIOS
+                  ? CupertinoActivityIndicator()
+                  : CircularProgressIndicator(),
+            );
           }
         });
   }

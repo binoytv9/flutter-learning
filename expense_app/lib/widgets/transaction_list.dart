@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
@@ -5,11 +7,16 @@ import '../models/transaction.dart';
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
   final Function deleteTransaction;
+  final _controller = ScrollController();
 
   TransactionList(this.transactions, this.deleteTransaction);
 
   @override
   Widget build(BuildContext context) {
+    if (transactions.isNotEmpty)
+      Timer(Duration(milliseconds: 1000),
+          () => _controller.jumpTo(_controller.position.minScrollExtent));
+
     return transactions.isEmpty
         ? LayoutBuilder(builder: (ctx, contraints) {
             return Column(
@@ -32,6 +39,7 @@ class TransactionList extends StatelessWidget {
             );
           })
         : ListView.builder(
+            controller: _controller,
             itemBuilder: (ctx, index) {
               return Card(
                 elevation: 5,
