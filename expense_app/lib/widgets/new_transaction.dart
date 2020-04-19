@@ -18,6 +18,8 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   TextEditingController _titleController;
   TextEditingController _amountController;
+  final _titleFocusNode = FocusNode();
+  final _amountFocusNode = FocusNode();
 
   Transaction oldTx;
 
@@ -30,17 +32,33 @@ class _NewTransactionState extends State<NewTransaction> {
       text: oldTx.title,
     );
     _amountController = TextEditingController(
-      text: oldTx.amount.toString(),
+      text: oldTx.amount == 0 ? '' : oldTx.amount.toString(),
     );
   }
 
-  void _submitData() {
-    oldTx.title = _titleController.text;
-    oldTx.amount = double.tryParse(_amountController.text);
+  @override
+  void initState() {
+    super.initState();
+    _titleFocusNode.addListener(() {
+      if (_titleFocusNode.hasFocus) {
+        _titleController.selection = TextSelection(
+            baseOffset: 0, extentOffset: _titleController.text.length);
+      }
+    });
 
-    if (oldTx.title.isEmpty ||
-        oldTx.amount == null ||
-        oldTx.amount <= 0) {
+    _amountFocusNode.addListener(() {
+      if (_amountFocusNode.hasFocus) {
+        _amountController.selection = TextSelection(
+            baseOffset: 0, extentOffset: _amountController.text.length);
+      }
+    });
+  }
+
+  void _submitData() {
+    oldTx.title = _titleController.text.trim();
+    oldTx.amount = double.tryParse(_amountController.text.trim());
+
+    if (oldTx.title.isEmpty || oldTx.amount == null || oldTx.amount <= 0) {
       return;
     }
 
@@ -81,15 +99,16 @@ class _NewTransactionState extends State<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextField(
-                autofocus: true,
                 decoration: InputDecoration(labelText: 'Title'),
                 controller: _titleController,
+                focusNode: _titleFocusNode,
                 textInputAction: TextInputAction.next,
                 onSubmitted: (_) => FocusScope.of(context).nextFocus(),
               ),
               TextField(
                 decoration: InputDecoration(labelText: 'Amount'),
                 controller: _amountController,
+                focusNode: _amountFocusNode,
                 keyboardType: TextInputType.numberWithOptions(
                   decimal: true,
                 ),

@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:sqflite/sqflite.dart';
 
 const DB_ID = 'id';
 const DB_TITLE = 'title';

@@ -32,8 +32,11 @@ class _PageBodyState extends State<PageBody> {
       TransactionDatabaseProvider.db.deleteTransactionWithId(tx.id);
     });
 
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text("${tx.title} deleted", textAlign: TextAlign.center,)));
+    Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(
+      "${tx.title} deleted",
+      textAlign: TextAlign.center,
+    )));
   }
 
   List<Transaction> _getRecentTransactions(List<Transaction> transactions) {
@@ -51,9 +54,11 @@ class _PageBodyState extends State<PageBody> {
       TransactionDatabaseProvider.db.updateTransaction(updatedTx);
     });
 
-     Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text("${updatedTx.title} updated", textAlign: TextAlign.center,)));
-  
+    Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(
+      "${updatedTx.title} updated",
+      textAlign: TextAlign.center,
+    )));
   }
 
   Future<bool> _startUpdateTransaction(BuildContext ctx, Transaction tx) {
@@ -87,8 +92,8 @@ class _PageBodyState extends State<PageBody> {
 
             final txListWidget = Container(
               height: bodyHeight * 0.7,
-              child: TransactionList(
-                  userTransactions, _deleteTransaction, _startUpdateTransaction),
+              child: TransactionList(userTransactions, _deleteTransaction,
+                  _startUpdateTransaction),
             );
 
             return SafeArea(
@@ -127,7 +132,8 @@ class _PageBodyState extends State<PageBody> {
                           ? Container(
                               height: bodyHeight * 0.63,
                               child: Chart(
-                                  _getRecentTransactions(userTransactions)),
+                                _getRecentTransactions(userTransactions),
+                              ),
                             )
                           : txListWidget
                   ],

@@ -33,7 +33,7 @@ class TransactionList extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
-                fontSize: 18,
+                fontSize: 16,
               ),
               textAlign: TextAlign.left,
             ),
@@ -64,7 +64,7 @@ class TransactionList extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
-                fontSize: 18,
+                fontSize: 16,
               ),
               textAlign: TextAlign.right,
             ),
@@ -133,7 +133,7 @@ class TransactionList extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(6),
                         child: FittedBox(
-                            child: Text('\$${transactions[index].amount}')),
+                            child: Text('₹${transactions[index].amount}')),
                       ),
                     ),
                     title: Text(
