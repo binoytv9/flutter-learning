@@ -7,12 +7,12 @@ import './adaptive_flat_button.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function txHandler;
-  final Transaction oldTx;
+  final Transaction tx;
 
-  NewTransaction(this.txHandler, [this.oldTx]);
+  NewTransaction(this.txHandler, [this.tx]);
 
   @override
-  _NewTransactionState createState() => _NewTransactionState(oldTx);
+  _NewTransactionState createState() => _NewTransactionState(tx);
 }
 
 class _NewTransactionState extends State<NewTransaction> {
@@ -21,18 +21,18 @@ class _NewTransactionState extends State<NewTransaction> {
   final _titleFocusNode = FocusNode();
   final _amountFocusNode = FocusNode();
 
-  Transaction oldTx;
+  Transaction tx;
 
-  _NewTransactionState(this.oldTx) {
-    if (oldTx == null) {
-      oldTx = Transaction.empty();
+  _NewTransactionState(this.tx) {
+    if (tx == null) {
+      tx = Transaction.empty();
     }
 
     _titleController = TextEditingController(
-      text: oldTx.title,
+      text: tx.title,
     );
     _amountController = TextEditingController(
-      text: oldTx.amount == 0 ? '' : oldTx.amount.toString(),
+      text: tx.amount == 0 ? '' : tx.amount.toString(),
     );
   }
 
@@ -55,14 +55,14 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _submitData() {
-    oldTx.title = _titleController.text.trim();
-    oldTx.amount = double.tryParse(_amountController.text.trim());
+    tx.title = _titleController.text.trim();
+    tx.amount = double.tryParse(_amountController.text.trim());
 
-    if (oldTx.title.isEmpty || oldTx.amount == null || oldTx.amount <= 0) {
+    if (tx.title.isEmpty || tx.amount == null || tx.amount <= 0) {
       return;
     }
 
-    widget.txHandler(oldTx);
+    widget.txHandler(tx);
 
     Navigator.of(context).pop(true);
   }
@@ -78,7 +78,7 @@ class _NewTransactionState extends State<NewTransaction> {
         return;
       }
       setState(() {
-        oldTx.date = pickedDate;
+        tx.date = pickedDate;
       });
     });
   }
@@ -121,7 +121,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        'Picked Date: ${DateFormat.yMMMd().format(oldTx.date)}',
+                        'Date: ${DateFormat('EEE MMM d, y').format(tx.date)}',
                       ),
                     ),
                     AdaptiveFlatButton(

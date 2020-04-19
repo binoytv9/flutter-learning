@@ -14,10 +14,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   void _addNewTransaction(Transaction newTx) {
     setState(() {
       TransactionDatabaseProvider.db.addTransactionToDatabase(newTx);
     });
+
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(
+      "${newTx.title} added",
+      textAlign: TextAlign.center,
+    )));
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -30,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +70,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
+            key: _scaffoldKey,
             child: PageBody(appBar.preferredSize.height),
             navigationBar: appBar,
           )
         : Scaffold(
+            key: _scaffoldKey,
             appBar: appBar,
             body: PageBody(appBar.preferredSize.height),
             floatingActionButtonLocation:
