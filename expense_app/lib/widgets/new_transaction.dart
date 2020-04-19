@@ -46,7 +46,7 @@ class _NewTransactionState extends State<NewTransaction> {
 
     widget.txHandler(oldTx);
 
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
   }
 
   void _presentDatePicker() {

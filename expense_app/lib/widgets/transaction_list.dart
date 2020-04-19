@@ -10,6 +10,74 @@ class TransactionList extends StatelessWidget {
   TransactionList(
       this.transactions, this.deleteTransaction, this.updateTransaction);
 
+  Widget slideRightBackground() {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 5,
+      ),
+      color: Colors.green,
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(
+              width: 20,
+            ),
+            Icon(
+              Icons.edit,
+              color: Colors.white,
+            ),
+            Text(
+              " Edit",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerLeft,
+      ),
+    );
+  }
+
+  Widget slideLeftBackground() {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 5,
+      ),
+      color: Colors.red,
+      child: Align(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Icon(
+              Icons.delete,
+              color: Colors.white,
+            ),
+            Text(
+              " Delete",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+              textAlign: TextAlign.right,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+          ],
+        ),
+        alignment: Alignment.centerRight,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return transactions.isEmpty
@@ -38,26 +106,21 @@ class TransactionList extends StatelessWidget {
             itemBuilder: (ctx, index) {
               return Dismissible(
                 key: Key(transactions[index].id.toString()),
+                confirmDismiss: (direction) {
+                  if (direction == DismissDirection.startToEnd) {
+                    return updateTransaction(ctx, transactions[index]);
+                  }
+
+                  return Future(() {
+                    return true;
+                  });
+                },
                 onDismissed: (direction) {
                   if (direction == DismissDirection.endToStart)
                     deleteTransaction(transactions[index]);
-                  else
-                    updateTransaction(ctx, transactions[index]);
                 },
-                background: Container(
-                  color: Colors.green,
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                ),
-                secondaryBackground: Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 5,
-                  ),
-                  color: Colors.red,
-                ),
+                background: slideRightBackground(),
+                secondaryBackground: slideLeftBackground(),
                 child: Card(
                   elevation: 5,
                   margin: EdgeInsets.symmetric(

@@ -33,7 +33,7 @@ class _PageBodyState extends State<PageBody> {
     });
 
     Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text("${tx.title} dismissed")));
+        .showSnackBar(SnackBar(content: Text("${tx.title} deleted", textAlign: TextAlign.center,)));
   }
 
   List<Transaction> _getRecentTransactions(List<Transaction> transactions) {
@@ -50,10 +50,14 @@ class _PageBodyState extends State<PageBody> {
     setState(() {
       TransactionDatabaseProvider.db.updateTransaction(updatedTx);
     });
+
+     Scaffold.of(context)
+        .showSnackBar(SnackBar(content: Text("${updatedTx.title} updated", textAlign: TextAlign.center,)));
+  
   }
 
-  void _startUpdateTransaction(BuildContext ctx, Transaction tx) {
-    showModalBottomSheet(
+  Future<bool> _startUpdateTransaction(BuildContext ctx, Transaction tx) {
+    return showModalBottomSheet<bool>(
         context: ctx,
         builder: (_) {
           return GestureDetector(
