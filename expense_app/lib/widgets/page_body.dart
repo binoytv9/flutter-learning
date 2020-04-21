@@ -83,6 +83,47 @@ class _PageBodyState extends State<PageBody> {
 
     allTransactionsFuture = _getAllTransaction();
 
+    List<Widget> _getPortraitPage(userTransactions, txListWidget) {
+      return [
+        Container(
+          height: bodyHeight * 0.3,
+          child: Chart(_getRecentTransactions(userTransactions)),
+        ),
+        txListWidget
+      ];
+    }
+
+    List<Widget> _getLandscapePage(userTransactions, txListWidget) {
+      return [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              SHOW_CHART_TEXT,
+              style: Theme.of(context).textTheme.title,
+            ),
+            Switch.adaptive(
+              activeColor: Theme.of(context).accentColor,
+              value: _showChart,
+              onChanged: (val) {
+                setState(() {
+                  _showChart = val;
+                });
+              },
+            ),
+          ],
+        ),
+        _showChart
+            ? Container(
+                height: bodyHeight * 0.63,
+                child: Chart(
+                  _getRecentTransactions(userTransactions),
+                ),
+              )
+            : txListWidget
+      ];
+    }
+
     return FutureBuilder<List<Transaction>>(
         future: allTransactionsFuture,
         builder:
@@ -103,39 +144,9 @@ class _PageBodyState extends State<PageBody> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     if (isLandscape)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            SHOW_CHART_TEXT,
-                            style: Theme.of(context).textTheme.title,
-                          ),
-                          Switch.adaptive(
-                            activeColor: Theme.of(context).accentColor,
-                            value: _showChart,
-                            onChanged: (val) {
-                              setState(() {
-                                _showChart = val;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
+                      ..._getLandscapePage(userTransactions, txListWidget),
                     if (!isLandscape)
-                      Container(
-                        height: bodyHeight * 0.3,
-                        child: Chart(_getRecentTransactions(userTransactions)),
-                      ),
-                    if (!isLandscape) txListWidget,
-                    if (isLandscape)
-                      _showChart
-                          ? Container(
-                              height: bodyHeight * 0.63,
-                              child: Chart(
-                                _getRecentTransactions(userTransactions),
-                              ),
-                            )
-                          : txListWidget
+                      ..._getPortraitPage(userTransactions, txListWidget),
                   ],
                 ),
               ),
