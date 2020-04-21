@@ -42,7 +42,7 @@ class _PageBodyState extends State<PageBody> {
   List<Transaction> _getRecentTransactions(List<Transaction> transactions) {
     return transactions.where((tx) {
       return tx.date.isAfter(
-        DateTime.now().subtract(Duration(
+        DateTime.now().subtract(const Duration(
           days: 7,
         )),
       );
@@ -143,8 +143,8 @@ class _PageBodyState extends State<PageBody> {
           } else {
             return Center(
               child: Platform.isIOS
-                  ? CupertinoActivityIndicator()
-                  : CircularProgressIndicator(),
+                  ? const CupertinoActivityIndicator()
+                  : const CircularProgressIndicator(),
             );
           }
         });

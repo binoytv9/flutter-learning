@@ -12,7 +12,7 @@ class TransactionList extends StatelessWidget {
 
   Widget slideRightBackground() {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 5,
       ),
@@ -21,14 +21,14 @@ class TransactionList extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Icon(
               Icons.edit,
               color: Colors.white,
             ),
-            Text(
+            const Text(
               " Edit",
               style: TextStyle(
                 color: Colors.white,
@@ -46,7 +46,7 @@ class TransactionList extends StatelessWidget {
 
   Widget slideLeftBackground() {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 8,
         horizontal: 5,
       ),
@@ -59,7 +59,7 @@ class TransactionList extends StatelessWidget {
               Icons.delete,
               color: Colors.white,
             ),
-            Text(
+            const Text(
               " Delete",
               style: TextStyle(
                 color: Colors.white,
@@ -68,7 +68,7 @@ class TransactionList extends StatelessWidget {
               ),
               textAlign: TextAlign.right,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
           ],
@@ -88,7 +88,7 @@ class TransactionList extends StatelessWidget {
                   'No transactions added yet!',
                   style: Theme.of(context).textTheme.title,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Container(
@@ -123,7 +123,7 @@ class TransactionList extends StatelessWidget {
                 secondaryBackground: slideLeftBackground(),
                 child: Card(
                   elevation: 5,
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: 5,
                   ),
@@ -150,7 +150,7 @@ class TransactionList extends StatelessWidget {
                                 deleteTransaction(transactions[index]),
                             icon: Icon(Icons.delete),
                             textColor: Theme.of(context).errorColor,
-                            label: Text('Delete'),
+                            label: const Text('Delete'),
                           )
                         : IconButton(
                             icon: Icon(Icons.delete),
