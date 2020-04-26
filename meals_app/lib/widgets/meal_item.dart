@@ -10,6 +10,7 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
+  final Function favouriteScreenHandler;
 
   MealItem({
     @required this.id,
@@ -18,6 +19,7 @@ class MealItem extends StatelessWidget {
     @required this.affordability,
     @required this.complexity,
     @required this.duration,
+    this.favouriteScreenHandler = null,
   });
 
   String get affordabilityText {
@@ -47,10 +49,16 @@ class MealItem extends StatelessWidget {
   }
 
   void selectMeal(BuildContext ctx) {
-    Navigator.of(ctx).pushNamed(
+    Navigator.of(ctx)
+        .pushNamed(
       MealDetailScreen.routeName,
       arguments: id,
-    );
+    )
+        .then((_) {
+      if (favouriteScreenHandler != null) {
+        favouriteScreenHandler();
+      }
+    });
   }
 
   @override
@@ -62,13 +70,13 @@ class MealItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         elevation: 4,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
             Stack(
               children: <Widget>[
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
@@ -85,7 +93,7 @@ class MealItem extends StatelessWidget {
                   child: Container(
                     width: 300,
                     color: Colors.black54,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       vertical: 5,
                       horizontal: 20,
                     ),
@@ -103,7 +111,7 @@ class MealItem extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -112,7 +120,7 @@ class MealItem extends StatelessWidget {
                       Icon(
                         Icons.schedule,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 6,
                       ),
                       Text('$duration min'),
@@ -123,7 +131,7 @@ class MealItem extends StatelessWidget {
                       Icon(
                         Icons.work,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 6,
                       ),
                       Text('$complexityText'),
@@ -134,7 +142,7 @@ class MealItem extends StatelessWidget {
                       Icon(
                         Icons.attach_money,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 6,
                       ),
                       Text('$affordabilityText'),

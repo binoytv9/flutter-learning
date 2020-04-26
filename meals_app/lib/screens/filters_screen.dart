@@ -52,7 +52,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Your Filters',
         ),
         actions: <Widget>[
@@ -74,7 +74,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
       body: Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Text(
               'Adjust your meal selection',
               style: Theme.of(context).textTheme.title,

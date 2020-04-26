@@ -3,28 +3,40 @@ import 'package:flutter/material.dart';
 import '../widgets/meal_item.dart';
 import '../models/meal.dart';
 
-class FavoritesScreen extends StatelessWidget {
+class FavoritesScreen extends StatefulWidget {
   final List<Meal> favoriteMeals;
 
   FavoritesScreen(this.favoriteMeals);
 
   @override
+  _FavoritesScreenState createState() => _FavoritesScreenState();
+}
+
+class _FavoritesScreenState extends State<FavoritesScreen> {
+  void _popAndRefresh() {
+    setState(() {
+      //print('setstate called for favoritescreen');
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (favoriteMeals.isEmpty) {
-      return Center(
+    if (widget.favoriteMeals.isEmpty) {
+      return const Center(
         child: Text('You have no favorites yet. Start adding some!'),
       );
     } else {
       return ListView.builder(
-        itemCount: favoriteMeals.length,
+        itemCount: widget.favoriteMeals.length,
         itemBuilder: (ctx, index) {
           return MealItem(
-            id: favoriteMeals[index].id,
-            title: favoriteMeals[index].title,
-            affordability: favoriteMeals[index].affordability,
-            complexity: favoriteMeals[index].complexity,
-            duration: favoriteMeals[index].duration,
-            imageUrl: favoriteMeals[index].imageUrl,
+            id: widget.favoriteMeals[index].id,
+            title: widget.favoriteMeals[index].title,
+            affordability: widget.favoriteMeals[index].affordability,
+            complexity: widget.favoriteMeals[index].complexity,
+            duration: widget.favoriteMeals[index].duration,
+            imageUrl: widget.favoriteMeals[index].imageUrl,
+            favouriteScreenHandler: _popAndRefresh,
           );
         },
       );

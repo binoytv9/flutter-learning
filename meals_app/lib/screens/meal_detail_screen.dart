@@ -12,7 +12,7 @@ class MealDetailScreen extends StatelessWidget {
 
   Widget buildSectionTitle(BuildContext ctx, String text) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         vertical: 10,
       ),
       child: Text(
@@ -31,8 +31,8 @@ class MealDetailScreen extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(10),
       ),
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       height: 150,
       width: double.infinity,
       child: child,
@@ -69,7 +69,7 @@ class MealDetailScreen extends StatelessWidget {
                   return Card(
                     color: Theme.of(ctx).accentColor,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 10,
                       ),
@@ -99,7 +99,7 @@ class MealDetailScreen extends StatelessWidget {
                           selectedMeal.steps[index],
                         ),
                       ),
-                      Divider(),
+                      const Divider(),
                     ],
                   );
                 },
