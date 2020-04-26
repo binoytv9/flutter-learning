@@ -14,9 +14,7 @@ class FavoritesScreen extends StatefulWidget {
 
 class _FavoritesScreenState extends State<FavoritesScreen> {
   void _popAndRefresh() {
-    setState(() {
-      //print('setstate called for favoritescreen');
-    });
+    setState(() {});
   }
 
   @override
