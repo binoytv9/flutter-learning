@@ -26,6 +26,8 @@ class _NewTransactionState extends State<NewTransaction> {
     super.dispose();
     _titleFocusNode.dispose();
     _amountFocusNode.dispose();
+    _titleController.dispose();
+    _amountController.dispose();
   }
 
   Transaction tx;
