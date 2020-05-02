@@ -24,11 +24,11 @@ class CartItem extends StatelessWidget {
       key: ValueKey(id),
       background: Container(
         alignment: Alignment.centerRight,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           right: 20,
         ),
         color: Theme.of(context).errorColor,
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 4,
         ),
@@ -46,16 +46,16 @@ class CartItem extends StatelessWidget {
         ).removeItem(productId);
       },
       child: Card(
-        margin: EdgeInsets.symmetric(
+        margin: const EdgeInsets.symmetric(
           horizontal: 15,
           vertical: 4,
         ),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: ListTile(
             leading: CircleAvatar(
               child: Padding(
-                padding: EdgeInsets.all(
+                padding: const EdgeInsets.all(
                   5,
                 ),
                 child: FittedBox(

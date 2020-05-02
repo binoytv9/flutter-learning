@@ -10,7 +10,7 @@ class AppDrawer extends StatelessWidget {
     Function onTap,
   ) {
     return [
-      Divider(),
+      const Divider(),
       ListTile(
         leading: Icon(icon),
         title: Text(title),
@@ -25,7 +25,7 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('Hello friend'),
+            title: const Text('Hello friend'),
             automaticallyImplyLeading: false,
           ),
           ...buildListTile(

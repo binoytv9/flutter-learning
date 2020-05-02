@@ -15,7 +15,7 @@ class OrdersScreen extends StatelessWidget {
     return Scaffold(
       drawer: AppDrawer(),
       appBar: AppBar(
-        title: Text('Your Orders'),
+        title: const Text('Your Orders'),
       ),
       body: ListView.builder(
         itemCount: orderData.orders.length,
