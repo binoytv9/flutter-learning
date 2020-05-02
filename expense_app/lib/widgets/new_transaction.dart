@@ -21,6 +21,13 @@ class _NewTransactionState extends State<NewTransaction> {
   final _titleFocusNode = FocusNode();
   final _amountFocusNode = FocusNode();
 
+  @override
+  void dispose() {
+    super.dispose();
+    _titleFocusNode.dispose();
+    _amountFocusNode.dispose();
+  }
+
   Transaction tx;
 
   _NewTransactionState(this.tx) {
