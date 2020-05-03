@@ -46,7 +46,7 @@ class _OrderItemState extends State<OrderItem> {
                 vertical: 4,
               ),
               height: min(
-                widget.order.products.length * 10.0 + 10,
+                widget.order.products.length * 10.0 + 30,
                 100,
               ),
               child: ListView(

@@ -17,12 +17,16 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Your Orders'),
       ),
-      body: ListView.builder(
-        itemCount: orderData.orders.length,
-        itemBuilder: (_, index) => OrderItem(
-          orderData.orders[index],
-        ),
-      ),
+      body: orderData.orders.length == 0
+          ? const Center(
+              child: Text('Your didn\'t ordered anything. Try some!'),
+            )
+          : ListView.builder(
+              itemCount: orderData.orders.length,
+              itemBuilder: (_, index) => OrderItem(
+                orderData.orders[index],
+              ),
+            ),
     );
   }
 }
