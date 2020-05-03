@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/cart_icon.dart';
+import '../widgets/favorite_icon.dart';
 import '../providers/products.dart';
 
 class ProductDetailScreen extends StatelessWidget {
@@ -8,7 +10,10 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context).settings.arguments as String;
+    final argsData =
+        ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final String productId = argsData['productId'];
+    final BuildContext productProviderCtx = argsData['productProviderCtx'];
     final loadedProduct = Provider.of<Products>(
       context,
       listen: false,
@@ -19,40 +24,72 @@ class ProductDetailScreen extends StatelessWidget {
         title: Text(loadedProduct.title),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
+        child: Column(
+          children: [
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              '\$${loadedProduct.price.toStringAsFixed(2)}',
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 20,
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Text(
+                loadedProduct.description,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
           Container(
-            height: 300,
-            width: double.infinity,
-            child: Image.network(
-              loadedProduct.imageUrl,
-              fit: BoxFit.cover,
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
+            ),
+            child: FavoriteIcon(
+              productProviderCtx: productProviderCtx,
             ),
           ),
           const SizedBox(
-            height: 10,
-          ),
-          Text(
-            '\$${loadedProduct.price}',
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 20,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
+            height: 5,
           ),
           Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
+            height: 55,
+            width: 55,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.black,
             ),
-            child: Text(
-              loadedProduct.description,
-              textAlign: TextAlign.center,
-              softWrap: true,
+            child: CartIcon(
+              loadedProduct,
             ),
           ),
-        ]),
+        ],
       ),
     );
   }

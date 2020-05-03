@@ -33,9 +33,9 @@ class CartItem extends StatelessWidget {
           vertical: 4,
         ),
         child: Icon(
-          Icons.delete,
+          Icons.remove_shopping_cart,
           color: Colors.white,
-          size: 40,
+          size: 30,
         ),
       ),
       direction: DismissDirection.endToStart,
@@ -87,14 +87,14 @@ class CartItem extends StatelessWidget {
                 ),
                 child: FittedBox(
                   child: Text(
-                    '\$$price',
+                    '\$${price.toStringAsFixed(2)}',
                   ),
                 ),
               ),
             ),
             title: Text(title),
             subtitle: Text(
-              'Total: \$${(price * quantity)}',
+              'Total: \$${(price * quantity).toStringAsFixed(2)}',
             ),
             trailing: Text('$quantity x'),
           ),

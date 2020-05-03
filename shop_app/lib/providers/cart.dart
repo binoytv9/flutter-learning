@@ -96,4 +96,12 @@ class Cart with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  int productQuantity(String productId) {
+    if (_items.containsKey(productId)) {
+      return _items[productId].quantity;
+    }
+
+    return 0;
+  }
 }
