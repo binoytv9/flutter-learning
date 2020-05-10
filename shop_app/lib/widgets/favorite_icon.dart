@@ -28,10 +28,21 @@ class _FavoriteIconState extends State<FavoriteIcon> {
       icon: Icon(
         product.isFavorite ? Icons.favorite : Icons.favorite_border,
       ),
-      onPressed: () {
-        setState(() {
-          product.toggleFavoriteStatus();
-        });
+      onPressed: () async {
+        try {
+          setState(() {});
+          await product.toggleFavoriteStatus();
+        } catch (err) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                err.toString(),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+          setState(() {});
+        }
       },
       color: Theme.of(context).accentColor,
     );
