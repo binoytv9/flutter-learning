@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
+import '../providers/auth.dart';
 
 class FavoriteIcon extends StatefulWidget {
   final BuildContext productProviderCtx;
@@ -24,6 +25,8 @@ class _FavoriteIconState extends State<FavoriteIcon> {
       product = Provider.of<Product>(widget.productProviderCtx);
     }
 
+    final authData = Provider.of<Auth>(context, listen: false);
+
     return IconButton(
       icon: Icon(
         product.isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -31,7 +34,7 @@ class _FavoriteIconState extends State<FavoriteIcon> {
       onPressed: () async {
         try {
           setState(() {});
-          await product.toggleFavoriteStatus();
+          await product.toggleFavoriteStatus(authData.token, authData.userId);
         } catch (err) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
