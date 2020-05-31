@@ -13,6 +13,7 @@ import './screens/user_products_screen.dart';
 import './screens/edit_product_screen.dart';
 import './screens/auth_screen.dart';
 import './screens/splash_screen.dart';
+import 'helpers/custom_route.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,16 +26,18 @@ class MyApp extends StatelessWidget {
           create: (_) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
-          update: (ctx, auth, prevProducts) => prevProducts..update(auth.token, auth.userId,
-              prevProducts == null ? [] : prevProducts.items),
+          update: (ctx, auth, prevProducts) => prevProducts
+            ..update(auth.token, auth.userId,
+                prevProducts == null ? [] : prevProducts.items),
           create: (ctx) => Products(),
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
-          update: (ctx, auth, prevOrders) => prevOrders..update(auth.token, auth.userId,
-              prevOrders == null ? [] : prevOrders.orders),
+          update: (ctx, auth, prevOrders) => prevOrders
+            ..update(auth.token, auth.userId,
+                prevOrders == null ? [] : prevOrders.orders),
           create: (_) => Orders(),
         ),
       ],
@@ -42,10 +45,14 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'MyShop',
           theme: ThemeData(
-            primarySwatch: Colors.purple,
-            accentColor: Colors.deepOrange,
-            fontFamily: 'Lato',
-          ),
+              primarySwatch: Colors.purple,
+              accentColor: Colors.deepOrange,
+              fontFamily: 'Lato',
+              pageTransitionsTheme: PageTransitionsTheme(builders: {
+                TargetPlatform.android: CustomPageTransitionBuilder(),
+                TargetPlatform.iOS: CustomPageTransitionBuilder(),
+
+              },),),
           home: auth.isAuth
               ? ProductsOverviewScreen()
               : FutureBuilder(
