@@ -11,12 +11,12 @@ class GreatPlaces with ChangeNotifier {
     return [..._items];
   }
 
-  void addPlace(String title, File pickedImage) {
+  void addPlace(String title, File pickedImage, PlaceLocation pickedLocation) {
     final newPlace = Place(
       id: DateTime.now().toString(),
       title: title,
       image: pickedImage,
-      location: null,
+      location: pickedLocation,
     );
 
     _items.add(newPlace);
@@ -28,6 +28,9 @@ class GreatPlaces with ChangeNotifier {
         'id': newPlace.id,
         'title': newPlace.title,
         'image': newPlace.image.path,
+        'loc_lat': newPlace.location.latitude,
+        'loc_lng': newPlace.location.longitude,
+        'address': newPlace.location.address,
       },
     );
   }
@@ -35,14 +38,24 @@ class GreatPlaces with ChangeNotifier {
   Future<void> fetchAndSetPlaces() async {
     final dataList = await DBHelper.getData('user_places');
     _items = dataList
-        .map((item) => Place(
-              id: item['id'],
-              title: item['title'],
-              image: File(item['image']),
-              location: null,
-            ))
+        .map(
+          (item) => Place(
+            id: item['id'],
+            title: item['title'],
+            image: File(item['image']),
+            location: PlaceLocation(
+              latitude: item['loc_lat'],
+              longitude: item['loc_lng'],
+              address: item['address'],
+            ),
+          ),
+        )
         .toList();
 
     notifyListeners();
+  }
+
+  Place findById(String id) {
+    return _items.firstWhere((place) => place.id == id);
   }
 }
