@@ -56,6 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
         SnackBar(
           content: Text(
             message,
+            textAlign: TextAlign.center,
           ),
           backgroundColor: Theme.of(ctx).errorColor,
         ),
