@@ -25,7 +25,9 @@ class _NewMessageState extends State<NewMessage> {
         'userImage': userData['image_url'],
       },
     );
+    setState(() {
     _enteredMessage = '';
+    });
     _controller.clear();
   }
 
